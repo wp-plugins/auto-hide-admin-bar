@@ -4,12 +4,12 @@ Plugin Name: Auto Hide Admin Bar
 Plugin URI: http://www.nostromo.nl/plugins/auto-hide-admin-bar
 Description: Automatically hides the admin bar. Will show the admin bar when hovering over the top of the site.
 Author: Marcel Bootsman
-Version: 0.3
+Version: 0.4
 Author URI: http://www.nostromo.nl
 */
 
 function auto_hide_admin_bar() {
-    wp_enqueue_script('jquery');
+
     ?>
     <script type='text/javascript'>
 
@@ -18,7 +18,7 @@ function auto_hide_admin_bar() {
                 jQuery('#wpadminbar').css('top','-28px');
                 jQuery('body').css('margin-top','-28px');
                 jQuery('body').append('<div id=\'hiddendiv\'></div>');
-                
+
 		$autoHide = jQuery(this).find('#hiddendiv');
 		$autoHide.css('width', '100%');
 		$autoHide.css('min-height', '28px');
@@ -40,6 +40,13 @@ function auto_hide_admin_bar() {
     <?php
 
 }
+function add_jquery_stuff() {
+    if (is_user_logged_in()) {
+       wp_enqueue_script('jquery');
+    }
+}
+add_action('wp_print_scripts','add_jquery_stuff');
+
 function add_my_hide_stuff() {
     if (is_user_logged_in()) {
         auto_hide_admin_bar();
