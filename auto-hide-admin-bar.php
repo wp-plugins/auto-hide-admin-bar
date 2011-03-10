@@ -23,7 +23,7 @@ function auto_hide_admin_bar() {
 		$autoHide.css('width', '100%');
 		$autoHide.css('min-height', '28px');
 		$autoHide.css('z-index', '99998'); // admin bar is at z-index: 999999;
-		$autoHide.css('position', 'absolute');
+		$autoHide.css('position', 'fixed');
                 $autoHide.css('top', '0px');
 
 		$autoHide.mouseenter( function(e) {
