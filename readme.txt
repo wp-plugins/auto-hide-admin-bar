@@ -3,8 +3,8 @@ Contributors: mbootsman
 Donate link: http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar
 Tags: adminbar, admin bar, autohide, auto, hide
 Requires at least: 3.1
-Tested up to: 3.1
-Stable tag: 0.6.1
+Tested up to: 3.1.3
+Stable tag: 0.6.2
 
 This plugin adds an auto-hide feature to the WordPress Admin Bar that was introduced in WordPress 3.1. 
 
@@ -12,7 +12,7 @@ This plugin adds an auto-hide feature to the WordPress Admin Bar that was introd
 
 This plugin makes the new Admin Bar disappear. When hovering over the top of the site, the Admin Bar is back on screen.
 You end up with more screen real estate and the added functionality of the WordPress Admin Bar.
-If you have any comments, please leave a replay at http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar
+If you have any comments or questions, please leave a reply at http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar
 
 == Installation ==
 
@@ -27,8 +27,11 @@ If you have any comments, please leave a replay at http://www.nostromo.nl/wordpr
 
 == Changelog ==
 
+= 0.6.2 =
+* Added style adjustmenst for body background.
+
 = 0.6.1 =
-* Switched wp_enqueue sequence for jquery and jquery.hoverintent.
+* Switched wp_enqueue_script sequence for jquery and jquery.hoverintent due to problems.
 
 = 0.6 =
 * By request, added delay for showing/hiding the Admin Bar. A settings page will be included in the future.
