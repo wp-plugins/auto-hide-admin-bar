@@ -3,8 +3,8 @@ Contributors: mbootsman
 Donate link: http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar
 Tags: adminbar, admin bar, autohide, auto, hide
 Requires at least: 3.1
-Tested up to: 3.1.3
-Stable tag: 0.6.2
+Tested up to: 3.4
+Stable tag: 0.6.3
 
 This plugin adds an auto-hide feature to the WordPress Admin Bar that was introduced in WordPress 3.1. 
 
@@ -26,6 +26,9 @@ If you have any comments or questions, please leave a reply at http://www.nostro
 
 
 == Changelog ==
+
+= 0.6.3 =
+* Changed background-position to background-position-y, because of IE8 problem (of course...). Thanks to per (feja@home.se) for submitting the bug, and the jQuery bugtracker for the hint: http://bugs.jquery.com/ticket/11838
 
 = 0.6.2 =
 * Added style adjustmenst for body background.
