@@ -4,7 +4,7 @@ Plugin Name: Auto Hide Admin Bar
 Plugin URI: http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar
 Description: Automatically hides the admin bar. Will show the admin bar when hovering over the top of the site.
 Author: Marcel Bootsman
-Version: 0.6.2
+Version: 0.6.3
 Author URI: http://www.nostromo.nl
 */
 
@@ -19,7 +19,7 @@ function auto_hide_admin_bar() {
 
                 jQuery('#wpadminbar').css('top','-28px');
                 jQuery('body').css('margin-top','-28px');
-                jQuery('body').css('background-position','0px -28px');
+                //jQuery('body').css('background-position','0px -28px');
                 jQuery('body').append('<div id=\'hiddendiv\'></div>');
 
 		$autoHide = jQuery(this).find('#hiddendiv');
@@ -43,20 +43,20 @@ function auto_hide_admin_bar() {
                 $autoHide.hoverIntent(configIn);
                 jQuery('#wpadminbar').hoverIntent(configOut);
 
-                // doNothing function is for enabling hoverIntent to work with two layers.
+		// doNothing function is for enabling hoverIntent to work with two layers.
                 function doNothing(){}
 
                 // Show the Admin Bar
                 function adminBarIn() {
                     jQuery('#wpadminbar').animate({'top':'0px'}, 'fast');
                     jQuery('body').animate({'margin-top':'0px'}, 'fast');
-		    jQuery('body').animate({'background-position':'0px 0px'}, 'fast');
+		    jQuery('body').animate({'background-position-y':'0px'}, 'fast');
                 }
                 // Hide the Admin Bar
                 function adminBarOut() {
                     jQuery('#wpadminbar').animate({'top':'-28px'}, 'fast');
                     jQuery('body').animate({'margin-top':'-28px'}, 'fast');
-		    jQuery('body').animate({'background-position':'0px -28px'}, 'fast');
+		    jQuery('body').animate({'background-position-y':'-28px'}, 'fast');
                 }
             });
         </script>
@@ -68,13 +68,16 @@ function add_jquery_stuff() {
         /* determine plugin path */
         $x = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
 
-        wp_enqueue_script('jquery');
+	wp_enqueue_script('jquery');
+	wp_deregister_script('jquery');
+	wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', false, '1.7.2');
+	wp_enqueue_script('jquery');
         wp_register_script( 'jquery-hoverintent', $x.'js/jquery.hoverIntent.minified.js');
         wp_enqueue_script( 'jquery-hoverintent' );
 
     }
 }
-add_action('wp_print_scripts','add_jquery_stuff');
+add_action('wp_head','add_jquery_stuff');
 
 function add_my_hide_stuff() {
 
