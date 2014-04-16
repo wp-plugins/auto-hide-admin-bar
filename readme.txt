@@ -3,7 +3,7 @@ Contributors: mbootsman
 Donate link: http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar
 Tags: adminbar, admin bar, autohide, auto, hide, toolbar
 Requires at least: 3.1
-Tested up to: 3.8
+Tested up to: 3.9
 Stable tag: 0.8
 
 This plugin adds an auto-hide feature to the WordPress Admin Bar or Toolbar.
