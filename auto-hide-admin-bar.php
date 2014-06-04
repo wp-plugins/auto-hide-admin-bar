@@ -4,7 +4,7 @@ Plugin Name: Auto Hide Admin Bar
 Plugin URI: http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar
 Description: Automatically hides the Toolbar. Will show the Toolbar when hovering over the top of the site.
 Author: Marcel Bootsman
-Version: 0.8
+Version: 0.8.1
 Author URI: http://www.nostromo.nl
 */
 
@@ -103,8 +103,8 @@ function auto_hide_admin_bar()
      * Theme name check - For now only for Twenty Fourteen
      * because of the fixed header/menu
      **/
-    if (function_exists('get_current_theme')) {
-        $theme_name = get_current_theme();
+    if (function_exists('wp_get_theme')) {
+        $theme_name = ( wp_get_theme()->Template );
     };
 
     ?>
@@ -120,7 +120,7 @@ function auto_hide_admin_bar()
                 if (windowSize > 782) {
                     $('#wpadminbar').css('top', '-32px');
                     $('body').css('margin-top', '-32px');
-                    if ('Twenty Fourteen'  == themeName) {
+                    if ('twentyfourteen'  == themeName) {
                         $('.admin-bar.masthead-fixed .site-header').css('top', '0px');
                     }
                 }
@@ -177,7 +177,7 @@ function auto_hide_admin_bar()
                     $('#wpadminbar').animate({'top': '0px'}, <?php echo $ahab_anim_speed; ?>);
                     $('body').animate({'margin-top': '0px'}, <?php echo $ahab_anim_speed; ?>);
                     $('body').animate({'background-position-y': '0px'}, <?php echo $ahab_anim_speed; ?>);
-                    if ('Twenty Fourteen'  == themeName) {
+                    if ('twentyfourteen'  == themeName) {
                         $('.admin-bar.masthead-fixed .site-header').animate({'top': '32px'}, <?php echo $ahab_anim_speed; ?>)
                     }
                 }
@@ -188,7 +188,7 @@ function auto_hide_admin_bar()
                         $('#wpadminbar').animate({'top': '-32px'}, <?php echo $ahab_anim_speed; ?>);
                         $('body').animate({'margin-top': '-32px'}, <?php echo $ahab_anim_speed; ?>);
                         $('body').animate({'background-position-y': '-32px'}, <?php echo $ahab_anim_speed; ?>);
-                        if ('Twenty Fourteen'  == themeName) {
+                        if ('twentyfourteen'  == themeName) {
                             $('.admin-bar.masthead-fixed .site-header').animate({'top': '0px'}, <?php echo $ahab_anim_speed; ?>)
                         }
                     }
@@ -197,7 +197,7 @@ function auto_hide_admin_bar()
                             $('#wpadminbar').animate({'top': '-46px'}, <?php echo $ahab_anim_speed; ?>);
                             $('body').animate({'margin-top': '-46px'}, <?php echo $ahab_anim_speed; ?>);
                             $('body').animate({'background-position-y': '-46px'}, <?php echo $ahab_anim_speed; ?>);
-                            if ('Twenty Fourteen'  == themeName) {
+                            if ('twentyfourteen'  == themeName) {
                                 $('.admin-bar.masthead-fixed .site-header').animate({'top': '-46px'}, <?php echo $ahab_anim_speed; ?>)
                             }
                         }
