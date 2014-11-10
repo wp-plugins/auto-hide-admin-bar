@@ -4,7 +4,7 @@ Plugin Name: Auto Hide Admin Bar
 Plugin URI: http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar
 Description: Automatically hides the Toolbar. Will show the Toolbar when hovering over the top of the site.
 Author: Marcel Bootsman
-Version: 0.8.2
+Version: 0.9
 Author URI: http://www.nostromo.nl
 */
 
@@ -18,6 +18,7 @@ define( 'DEFAULT_SPEED', 200 );
 define( 'DEFAULT_DELAY', 1500 );
 define( 'DEFAULT_INTERVAL', 100 );
 define( 'DEFAULT_MOBILE', 1 );
+define( 'DEFAULT_ADMIN', 2 );
 
 /**
  * Returns current plugin version.
@@ -37,7 +38,6 @@ function plugin_get_version() {
  */
 if ( is_admin() ) {
 	include_once $plugin_path . 'ahab_options.php';
-
 }
 
 /**
@@ -50,21 +50,15 @@ if ( is_admin() ) {
  *
  * @return Array $links with new link=
  */
-function ahab_add_settings_link( $links, $file ) {
-	$this_plugin = plugin_basename( __FILE__ );
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'ahab_add_settings_link' );
+function ahab_add_settings_link( $links ) {
 
-	if ( $file == $this_plugin ) {
-		$settings_link = '<a href="plugins.php?page=auto-hide-admin-bar">' . __( "Settings", "auto-hide-admin-bar" ) . '</a>';
-		array_unshift( $links, $settings_link );
-	}
-
-	return $links;
+	$ahab_links = array( '<a href="options-general.php?page=auto-hide-admin-bar">' . __( "Settings", "auto-hide-admin-bar" ) . '</a>' );
+	return array_merge( $links, $ahab_links );
 }
 
-add_filter( 'plugin_action_links', 'ahab_add_settings_link', 10, 2 );
-
 /**
- * The main function. Build JS code and ouput it.
+ * The main function. Build JS code and output it.
  *
  * @author Marcel Bootsman
  * @link   http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
@@ -73,6 +67,7 @@ add_filter( 'plugin_action_links', 'ahab_add_settings_link', 10, 2 );
  *
  * @return None
  */
+
 function auto_hide_admin_bar() {
 	/* Get options
 	 *
@@ -142,8 +137,9 @@ function auto_hide_admin_bar() {
 
 				}
 
-				$('body').append('<div id=\'hiddendiv\'></div>');
-
+				if ($('#hiddendiv').length == 0) {
+					$('body').append('<div id=\'hiddendiv\'></div>');
+				}
 
 				$autoHide = $(this).find('#hiddendiv');
 				$autoHide.css('width', '100%');
@@ -219,8 +215,6 @@ function auto_hide_admin_bar() {
 <?php
 }
 
-add_action( 'wp_footer', 'ahab_add_jquery_stuff' );
-
 /**
  * Add jQuery
  *
@@ -231,6 +225,8 @@ add_action( 'wp_footer', 'ahab_add_jquery_stuff' );
  *
  * @return None
  */
+
+add_action( 'wp_footer', 'ahab_add_jquery_stuff' );
 function ahab_add_jquery_stuff() {
 	if ( is_user_logged_in() ) {
 		/* determine plugin path */
@@ -242,10 +238,8 @@ function ahab_add_jquery_stuff() {
 	}
 }
 
-add_action( 'wp_footer', 'ahab_add_my_hide_stuff' );
-
 /**
- * Hook main function only if user is logged in.
+ * Hook main function for logged in users
  *
  * @author Marcel Bootsman
  * @link   http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
@@ -254,10 +248,37 @@ add_action( 'wp_footer', 'ahab_add_my_hide_stuff' );
  *
  * @return None
  */
+add_action( 'wp_footer', 'ahab_add_my_hide_stuff' );
 function ahab_add_my_hide_stuff() {
 	if ( is_user_logged_in() ) {
 		auto_hide_admin_bar();
 	}
+}
+
+/**
+ * Hook main function in admin screens
+ *
+ * @author Marcel Bootsman
+ * @link   http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
+ *
+ * @param None
+ *
+ * @return None
+ */
+add_action( 'admin_footer', 'ahab_admin_add_my_hide_stuff' );
+function ahab_admin_add_my_hide_stuff() {
+	$options = get_option( 'ahab_plugin_options' );
+	if ( ( '' != $options[ 'admin' ] ) && ( is_numeric( $options[ 'admin' ] ) ) ) {
+		$ahab_admin = $options[ 'admin' ];
+	} else {
+		$ahab_admin = DEFAULT_ADMIN;
+	}
+
+	if (1 == $ahab_admin) {
+
+		auto_hide_admin_bar();
+	}
+
 }
 
 ?>

@@ -4,15 +4,14 @@ Donate link: http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar
 Tags: adminbar, admin bar, autohide, auto, hide, toolbar
 Requires at least: 3.1
 Tested up to: 4.0
-Stable tag: 0.8.2
+Stable tag: 0.9
 
 This plugin adds an auto-hide feature to the WordPress Admin Bar or Toolbar.
 
 == Description ==
 
-Since WordPress 3.3 the Admin Bar is called Toolbar, but this plugin will keep its name.
-This plugin makes the Toolbar disappear. When hovering over the top of the site, the Toolbar is magically returned.
-You end up with more screen real estate and the added functionality of the WordPress Toolbar.
+Auto Hide Admin Bar makes the WordPress Toolbar disappear - and reappear when hovering the mouse pointer over the top of the browwer window.
+You end up with a clean view of your site, and keep having access to the WordPress Toolbar.
 If you have any comments or questions, please use the support forum: http://wordpress.org/support/plugin/auto-hide-admin-bar
 
 == Installation ==
@@ -27,6 +26,14 @@ If you have any comments or questions, please use the support forum: http://word
 How do we make screenshots of things that are hidden? :)
 
 == Changelog ==
+
+= 0.9 =
+* Changed description
+* Moved settings page to settings menu.
+* Minor code cleaning/reorganization
+* Fixed some typo's in strings.
+* Fixed the hidden div (the one that triggers te re-appearance of the Toolbar) to not be added on window resize. We only need one...
+
 
 = 0.8.2 =
 * Changed loading of scripts to wp_footer
