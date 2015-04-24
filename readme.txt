@@ -10,7 +10,7 @@ This plugin adds an auto-hide feature to the WordPress Admin Bar or Toolbar.
 
 == Description ==
 
-Auto Hide Admin Bar makes the WordPress Toolbar disappear - and reappear when hovering the mouse pointer over the top of the browwer window.
+Auto Hide Admin Bar makes the WordPress Toolbar disappear - and reappear when hovering the mouse pointer over the top of the browser window.
 You end up with a clean view of your site, and keep having access to the WordPress Toolbar.
 If you have any comments or questions, please use the support forum: http://wordpress.org/support/plugin/auto-hide-admin-bar
 
