@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Auto Hide Admin Bar
-Plugin URI: http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar
+Plugin URI: https://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar
 Description: Automatically hides the Toolbar. Will show the Toolbar when hovering over the top of the site.
 Author: Marcel Bootsman
-Version: 0.9
-Author URI: http://www.nostromo.nl
+Version: 0.9.1
+Author URI: https://www.nostromo.nl
 */
 
 /* ----------------------------------------------------------------------------
@@ -54,6 +54,7 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'ahab_add_sett
 function ahab_add_settings_link( $links ) {
 
 	$ahab_links = array( '<a href="options-general.php?page=auto-hide-admin-bar">' . __( "Settings", "auto-hide-admin-bar" ) . '</a>' );
+
 	return array_merge( $links, $ahab_links );
 }
 
@@ -112,97 +113,101 @@ function auto_hide_admin_bar() {
 		jQuery(document).ready(function ($) {
 
 			function ahadMain() {
+				// check if page is in iframe & user is logged in - if so, customizer is active
+				var isInIframe = (window.location != window.parent.location) ? true : false;
 
-				var themeName = '<?php echo $theme_name; ?>';
-				var windowSize = $(window).width();
-				var ahabMobile = <?php echo $ahab_mobile; ?>;
-				if (windowSize > 782) {
-					$('#wpadminbar').css('top', '-32px');
-					$('body').css('margin-top', '-32px');
-					if ('twentyfourteen' == themeName) {
-						$('.admin-bar.masthead-fixed .site-header').css('top', '0px');
-					}
-				}
-				else {
-					if (1 == ahabMobile) {
-						$('#wpadminbar').css('z-index', '99999 !important');
-						$('#wpadminbar').css('cssText', 'z-index: 99999 !important; top: -46px;');
-						$('body').css('margin-top', '-46px');
-					}
-					else {
-						$('#wpadminbar').css('top', '0px');
-						$('body').css('margin-top', '0px');
-
-					}
-
-				}
-
-				if ($('#hiddendiv').length == 0) {
-					$('body').append('<div id=\'hiddendiv\'></div>');
-				}
-
-				$autoHide = $(this).find('#hiddendiv');
-				$autoHide.css('width', '100%');
-				if ((windowSize < 782) && (1 == ahabMobile)) {
-					$autoHide.css('min-height', '46px');
-				}
-				else {
-					$autoHide.css('min-height', '32px');
-				}
-				$autoHide.css('z-index', '99998'); // admin bar is at z-index: 99999;
-				$autoHide.css('position', 'fixed');
-				$autoHide.css('top', '0px');
-
-				var configIn = {
-					over       : adminBarIn, // function = onMouseOver callback (REQUIRED)
-					sensitivity: 6,
-					out        : doNothing // function = onMouseOut callback (REQUIRED)
-				};
-				var configOut = {
-					over    : doNothing, // function = onMouseOver callback (REQUIRED)
-					timeout : <?php echo $ahab_delay; ?>, // number = milliseconds delay before onMouseOut
-					interval: <?php echo $ahab_interval; ?>, // number = millseconds interval for mouse polling
-					out     : adminBarOut // function = onMouseOut callback (REQUIRED)
-				};
-
-				$autoHide.hoverIntent(configIn);
-				$('#wpadminbar').hoverIntent(configOut);
-
-				// doNothing function is for enabling hoverIntent to work with two layers.
-				function doNothing() {
-				}
-
-				// Show the Admin Bar
-				function adminBarIn() {
-					$('#wpadminbar').animate({'top': '0px'}, <?php echo $ahab_anim_speed; ?>);
-					$('body').animate({'margin-top': '0px'}, <?php echo $ahab_anim_speed; ?>);
-					$('body').animate({'background-position-y': '0px'}, <?php echo $ahab_anim_speed; ?>);
-					if ('twentyfourteen' == themeName) {
-						$('.admin-bar.masthead-fixed .site-header').animate({'top': '32px'}, <?php echo $ahab_anim_speed; ?>)
-					}
-				}
-
-				// Hide the Admin Bar
-				function adminBarOut() {
+				if (!isInIframe && ($('body').hasClass('logged-in'))) {
+					var themeName = '<?php echo $theme_name; ?>';
+					var windowSize = $(window).width();
+					var ahabMobile = <?php echo $ahab_mobile; ?>;
 					if (windowSize > 782) {
-						$('#wpadminbar').animate({'top': '-32px'}, <?php echo $ahab_anim_speed; ?>);
-						$('body').animate({'margin-top': '-32px'}, <?php echo $ahab_anim_speed; ?>);
-						$('body').animate({'background-position-y': '-32px'}, <?php echo $ahab_anim_speed; ?>);
+						$('#wpadminbar').css('top', '-32px');
+						$('body').css('margin-top', '-32px');
 						if ('twentyfourteen' == themeName) {
-							$('.admin-bar.masthead-fixed .site-header').animate({'top': '0px'}, <?php echo $ahab_anim_speed; ?>)
+							$('.admin-bar.masthead-fixed .site-header').css('top', '0px');
 						}
 					}
 					else {
 						if (1 == ahabMobile) {
-							$('#wpadminbar').animate({'top': '-46px'}, <?php echo $ahab_anim_speed; ?>);
-							$('body').animate({'margin-top': '-46px'}, <?php echo $ahab_anim_speed; ?>);
-							$('body').animate({'background-position-y': '-46px'}, <?php echo $ahab_anim_speed; ?>);
-							if ('twentyfourteen' == themeName) {
-								$('.admin-bar.masthead-fixed .site-header').animate({'top': '-46px'}, <?php echo $ahab_anim_speed; ?>)
-							}
+							$('#wpadminbar').css('z-index', '99999 !important');
+							$('#wpadminbar').css('cssText', 'z-index: 99999 !important; top: -46px;');
+							$('body').css('margin-top', '-46px');
+						}
+						else {
+							$('#wpadminbar').css('top', '0px');
+							$('body').css('margin-top', '0px');
+
+						}
+
+					}
+
+					if ($('#hiddendiv').length == 0) {
+						$('body').append('<div id=\'hiddendiv\'></div>');
+					}
+
+					$autoHide = $(this).find('#hiddendiv');
+					$autoHide.css('width', '100%');
+					if ((windowSize < 782) && (1 == ahabMobile)) {
+						$autoHide.css('min-height', '46px');
+					}
+					else {
+						$autoHide.css('min-height', '32px');
+					}
+					$autoHide.css('z-index', '99998'); // admin bar is at z-index: 99999;
+					$autoHide.css('position', 'fixed');
+					$autoHide.css('top', '0px');
+
+					var configIn = {
+						over       : adminBarIn, // function = onMouseOver callback (REQUIRED)
+						sensitivity: 6,
+						out        : doNothing // function = onMouseOut callback (REQUIRED)
+					};
+					var configOut = {
+						over    : doNothing, // function = onMouseOver callback (REQUIRED)
+						timeout : <?php echo $ahab_delay; ?>, // number = milliseconds delay before onMouseOut
+						interval: <?php echo $ahab_interval; ?>, // number = millseconds interval for mouse polling
+						out     : adminBarOut // function = onMouseOut callback (REQUIRED)
+					};
+
+					$autoHide.hoverIntent(configIn);
+					$('#wpadminbar').hoverIntent(configOut);
+
+					// doNothing function is for enabling hoverIntent to work with two layers.
+					function doNothing() {
+					}
+
+					// Show the Admin Bar
+					function adminBarIn() {
+						$('#wpadminbar').animate({'top': '0px'}, <?php echo $ahab_anim_speed; ?>);
+						$('body').animate({'margin-top': '0px'}, <?php echo $ahab_anim_speed; ?>);
+						$('body').animate({'background-position-y': '0px'}, <?php echo $ahab_anim_speed; ?>);
+						if ('twentyfourteen' == themeName) {
+							$('.admin-bar.masthead-fixed .site-header').animate({'top': '32px'}, <?php echo $ahab_anim_speed; ?>)
 						}
 					}
 
+					// Hide the Admin Bar
+					function adminBarOut() {
+						if (windowSize > 782) {
+							$('#wpadminbar').animate({'top': '-32px'}, <?php echo $ahab_anim_speed; ?>);
+							$('body').animate({'margin-top': '-32px'}, <?php echo $ahab_anim_speed; ?>);
+							$('body').animate({'background-position-y': '-32px'}, <?php echo $ahab_anim_speed; ?>);
+							if ('twentyfourteen' == themeName) {
+								$('.admin-bar.masthead-fixed .site-header').animate({'top': '0px'}, <?php echo $ahab_anim_speed; ?>)
+							}
+						}
+						else {
+							if (1 == ahabMobile) {
+								$('#wpadminbar').animate({'top': '-46px'}, <?php echo $ahab_anim_speed; ?>);
+								$('body').animate({'margin-top': '-46px'}, <?php echo $ahab_anim_speed; ?>);
+								$('body').animate({'background-position-y': '-46px'}, <?php echo $ahab_anim_speed; ?>);
+								if ('twentyfourteen' == themeName) {
+									$('.admin-bar.masthead-fixed .site-header').animate({'top': '-46px'}, <?php echo $ahab_anim_speed; ?>)
+								}
+							}
+						}
+
+					}
 				}
 			}
 
@@ -274,7 +279,7 @@ function ahab_admin_add_my_hide_stuff() {
 		$ahab_admin = DEFAULT_ADMIN;
 	}
 
-	if (1 == $ahab_admin) {
+	if ( 1 == $ahab_admin ) {
 
 		auto_hide_admin_bar();
 	}
